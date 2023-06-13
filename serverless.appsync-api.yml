@@ -15,6 +15,9 @@ mappingTemplates:
   
     # request: Query.getMyProfile.request.vtl
     # response: Query.getMyProfile.response.vtl
+  - type: Mutation
+    field: editMyProfile
+    dataSource: usersTable
 
 dataSources:
   - type: NONE
