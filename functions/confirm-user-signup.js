@@ -10,7 +10,6 @@ module.exports.handler = async (event) => {
     const name = event.request.userAttributes['name']
     const suffix = chance.string({ length: 8, casing: 'upper', alpha: true, numeric: true })
     const screenName = `${name.replace(/[^a-zA-Z0-9]/g, "")}${suffix}`
-    
     const user = {
       id: event.userName,
       name,
