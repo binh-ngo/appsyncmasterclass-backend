@@ -1,0 +1,24 @@
+## Takes the tweets array from the TimelineTable
+#if ($context.source.tweets.size() == 0)
+  #return([])
+#end
+
+## extract tweetId into array of tweets then json serialize it and pass it to the BatchGetItem operation
+#set ($tweets = [])
+#foreach ($item in $context.source.tweets)
+  #set ($tweet = {})
+  #set ($tweet.id = $item.tweetId)
+  ## util.qr ignores the return value of the add operation 
+  $util.qr($tweets.add($util.dynamodb.toMapValues($tweet)))
+#end
+
+{
+  "version" : "2018-05-29",
+  "operation" : "BatchGetItem",
+  "tables" : {
+    "${TweetsTable}": {
+      "keys": $util.toJson($tweets),
+      "consistentRead": false
+    }
+  }
+}
